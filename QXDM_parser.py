@@ -69,26 +69,5 @@ def main():
                     state = "default"
                     continue
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     main()
