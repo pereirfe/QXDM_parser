@@ -75,7 +75,7 @@ def main():
     progression_thread = threading.Thread(target=progressing, args=(filename))
     progression_thread.start()
 
-    with open(input_filename, 'r') as infile, open(output_filename, 'w'):
+    with open(input_filename, 'r') as infile, open(output_filename, 'w') as outfile:
         for line in infile:
             linenum += 1
 
@@ -129,6 +129,8 @@ def main():
                 if line[0] == '201':             # Detect the end of an Inside Block
                     state = "default"
                     continue
+
+        print >> outfile, t_found, intervals_found, events_found
 
 if __name__ == "__main__":
     main()
