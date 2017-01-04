@@ -11,6 +11,8 @@ def main():
 
     t_found = [ [] for x in codes_search ]
     intervals_found = [ [] for x in codes_search ]
+    events_found = [ [] for x in codes_search ]
+
     codes_markers = { codes_search[0]:[ "Sleep Subframe",
                                         "Sleep SFN",
                                         "Wakeup SFN",
@@ -33,21 +35,49 @@ def main():
 
     current_code = 0
     substage = 0
+    candidate_code = 0
+    time_compiled = 0
+    time_compilation_steps = 0
+    block_finished = 0
 
     arg = []
+
+    code_extractor  = re.compile('0x[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]')
+    value_extractor = re.compile('\d+')
 
     with open(input_filename, 'r') as infile, open(output_filename, 'w'):
         for line in infile:
 
-            # ToDo: Default must register what happens inbetween intervals
             if state == "default":
-                if line[0:2] != '201':             # Ignores Inside Blocks
-                    continue
+                if line[0:2] != '201':              # New block
+                    candidate_code = (code_extractor.findall(line))[0]
+                    block_finished = 0
+                    for code in codes_search:
+                        if code == candidate_code:
+                            state = "code_found"
 
-                for code in codes_search:
-                    if code in line:
-                        state = "code_found"
-                        current_code = code
+                else:                               # Inside a non-searched Block
+                    if not block_finished:              # Used to block processing after getting info
+                        for fm in frame_markers:            # Detect if line is a frame
+                            if fm in line:
+                                time_compilation_steps += 1
+                                time_compiled += 10*value_extractor.findall(line)[-1]
+
+                        for sfm in sframe_markers:          # Detect if line is a subframe
+                            if sfm in line:
+                                time_compilation_steps += 1
+                                time_compiled += 1*value_extractor.findall(line)[-1]
+
+                        if time_compilation_steps == 2:                 # when both frame and subframe were found
+                            for i in range(intervals_found):
+                                intv = intervals_found[i]
+                                if intv[0] <= time_compiled and intv[1] >= time_compiled:
+                                    events_found[i].append(candidate_code)
+                                    candidate_code = 0
+
+                            block_finished = 1
+                            time_compilation_steps = 0
+                            time_compiled = 0
 
             if state == "code_found":
                 if codes_markers[current_code][substage] in line:
