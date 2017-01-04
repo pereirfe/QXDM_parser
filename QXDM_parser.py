@@ -1,5 +1,32 @@
 #!/usr/bin/python
 import sys
+import re
+import threading
+import time
+from subprocess import check_output
+import math
+
+linenum = 0
+
+def wc(filename):
+    return int(check_output(["wc", "-l", filename]).split()[0])
+
+def progressing(filename):
+    total = wc(filename)
+
+    print "Progression: ",
+
+    while linenum < total:
+        psize = math.floor(100*float(linenum)/float(total))
+
+        print '█' * psize,
+        print ' ' * (100-psize),
+        print '| ', psize, "%",
+
+        time.sleep(5)
+        print '\b'*105
+
+
 
 
 
@@ -45,8 +72,12 @@ def main():
     code_extractor  = re.compile('0x[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]')
     value_extractor = re.compile('\d+')
 
+    progression_thread = threading.Thread(target=progressing, args=(filename))
+    progression_thread.start()
+
     with open(input_filename, 'r') as infile, open(output_filename, 'w'):
         for line in infile:
+            linenum += 1
 
             if state == "default":
                 if line[0:2] != '201':              # New block
