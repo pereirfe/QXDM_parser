@@ -21,14 +21,21 @@ def progressing(filename):
     while linenum < total:
         psize = int(math.floor(100*float(linenum)/float(total))/2)
 
-        print '█' * psize, ' ' * (50-psize-2), '| ',
+        sys.stdout.write('█' * psize)
+        sys.stdout.write(' ' * (50-psize))
+        sys.stdout.write('| ')
         if psize*2 < 10:
-            print ' ', psize*2, "%",
+            sys.stdout.write(' ')
+            sys.stdout.write(str(psize*2))
+            sys.stdout.write('%')
         else:
-            print psize*2, "%",
+            sys.stdout.write(str(psize*2))
+            sys.stdout.write('%')
 
-        time.sleep(0.5)
-        print '\b'*59,
+        time.sleep(2)
+        sys.stdout.write('\b'*55),
+
+    sys.stdout.write('██████████████████████████████████████████████████| 100%\n')
 
 
 def main():
@@ -38,11 +45,10 @@ def main():
     enable_progress = True
 
     input_filename = sys.argv[1]
-    output_filename = input_filename + "_PARSED.txt"
+    output_filename = input_filename + "_PARSED"
 
     codes_search = ["0xB18B"] #ToDo: Generalize, use a JSON
 
-#    t_found = [ [] for x in codes_search ]
     intervals_found = [ [] for x in codes_search ]
     events_found = [ [] for x in codes_search ]
 
@@ -82,12 +88,14 @@ def main():
         progression_thread = threading.Thread(target=progressing, args=(input_filename,))
         progression_thread.start()
 
+    print "Loading", input_filename, "..."
     with open(input_filename, 'r') as infile, open(output_filename, 'w') as outfile:
         for line in infile:
             linenum += 1
             if state == "offset":
                 if linenum > line_offset:
                     state = "default"
+                    print "Loaded!"
                 else:
                     continue
 
@@ -146,10 +154,6 @@ def main():
 
                         intervals_found[codes_search.index(current_code)].append(v)      # Interval Created
                         state = "default"
-
-                # if line[0] == '201':             # Detect the end of an Inside Block
-                    # state = "default"
-                    # continue
 
         print >> outfile, "Intervals Found: "
         pprint(intervals_found, stream=outfile)
