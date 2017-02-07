@@ -44,7 +44,7 @@ def main():
 
     global linenum
     line_offset = 5000
-    enable_progress = False
+    enable_progress = True
 
     input_filename = sys.argv[1]
     spec_filename  = sys.argv[2]
@@ -98,7 +98,7 @@ def main():
                             current_code = candidate_code
 
                 else:                               # Inside a non-searched Block
-                    if not block_finished:              # Used to block processing after getting info
+                    if not block_finished:              # Used for block processing after getting info
                         for fm in frame_markers:            # Detect if line is a frame
                             try:
                                 if fm in line:
@@ -117,9 +117,8 @@ def main():
 
                         if time_compilation_steps == 2:                 # when both frame and subframe were found
                             for cd_idx in range(len(codes_search)):
-                                for i in range(len(intervals_found[cd_idx])):  # ToDo: Fix. Not considering multiple codes
+                                for i in range(len(intervals_found[cd_idx])):
                                     intv = intervals_found[cd_idx][i]
-                                    # print intv, i, len(intervals_found), intervals_found
                                     if intv[0] <= time_compiled and intv[1] >= time_compiled:
                                         events_found[cd_idx].append(candidate_code)
 
@@ -131,8 +130,6 @@ def main():
             if state == "code_found":
                 if codes_markers[current_code][substage] in line:
                     arg.append(int(value_extractor.findall(line)[-1]))
-                    # print "CODE FOUND: ", current_code, "\nVALUE: ", int(value_extractor.findall(line)[-1]), "\nLINENUM:", linenum
-                    # raw_input("FOUND")
                     substage += 1
 
                     if substage == len(codes_markers[current_code])-1: #last one which is not an instruction
