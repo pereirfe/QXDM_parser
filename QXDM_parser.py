@@ -4,6 +4,8 @@ import sys
 import re
 import threading
 import time
+import json
+from ast import literal_eval
 from subprocess import check_output
 import math
 from pprint import pprint
@@ -42,33 +44,20 @@ def main():
 
     global linenum
     line_offset = 5000
-    enable_progress = True
+    enable_progress = False
 
     input_filename = sys.argv[1]
+    spec_filename  = sys.argv[2]
     output_filename = input_filename + "_PARSED"
 
-    codes_search = ["0xB18B"] #ToDo: Generalize, use a JSON
+    spec = json.load(open(spec_filename, 'r'))
+    codes_search = spec["codes_search"]
+    codes_markers = spec["codes_markers"]
+    frame_markers = spec["frame_markers"]
+    sframe_markers = spec["sframe_markers"]
 
     intervals_found = [ [] for x in codes_search ]
     events_found = [ [] for x in codes_search ]
-
-    codes_markers = { codes_search[0]:[ "Sleep Subframe",
-                                        "Sleep SFN",
-                                        "Wakeup SFN",
-                                        "Wakeup Subframe",
-                                        [[1,10,0,0],[0,0,10,1]]
-                                      ]
-                    }
-
-    frame_markers  = [ "System FN",
-                       "System Frame Number",
-                       "Current SFN"
-                     ]
-
-    sframe_markers = [ "Sub-frame Number",
-                       "Sub Frame Number",
-                       "Current Subframe Number"
-                     ]
 
     state = "offset"
 
@@ -111,14 +100,20 @@ def main():
                 else:                               # Inside a non-searched Block
                     if not block_finished:              # Used to block processing after getting info
                         for fm in frame_markers:            # Detect if line is a frame
-                            if fm in line:
-                                time_compilation_steps += 1
-                                time_compiled += 10*int(value_extractor.findall(line)[-1])
+                            try:
+                                if fm in line:
+                                    time_compilation_steps += 1
+                                    time_compiled += 10*int(value_extractor.findall(line)[-1])
+                            except:
+                                pass
 
                         for sfm in sframe_markers:          # Detect if line is a subframe
-                            if sfm in line:
-                                time_compilation_steps += 1
-                                time_compiled += 1*int(value_extractor.findall(line)[-1])
+                            try:
+                                if sfm in line:
+                                    time_compilation_steps += 1
+                                    time_compiled += 1*int(value_extractor.findall(line)[-1])
+                            except:
+                                pass
 
                         if time_compilation_steps == 2:                 # when both frame and subframe were found
                             for cd_idx in range(len(codes_search)):

@@ -1,0 +1,8 @@
+{
+    "codes_search" : ["0xB18B"],
+    "codes_markers" : {
+        "0xB18B" : [ "Sleep Subframe", "Sleep SFN", "Wakeup SFN", "Wakeup Subframe",[[1,10,0,0],[0,0,10,1]]]
+    },
+    "frame_markers" : [ "System FN", "System Frame Number", "Current SFN"],
+    "sframe_markers" : [ "Sub-frame Number", "Sub Frame Number", "Current Subframe Number"]
+}
