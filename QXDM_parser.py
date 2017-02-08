@@ -147,6 +147,26 @@ def main():
                         intervals_found[codes_search.index(current_code)].append(v)      # Interval Created
                         state = "default"
 
+        mean_duration = []
+        for code_intervals, code, event_list in zip(intervals_found, codes_search, events_found):
+            acc = 0
+            for interval in code_intervals:
+                acc += (interval[1]-interval[0])
+
+            print >> outfile, "Searching for Intervals Between", code, "references"
+            print >> outfile, "\t- No. Intervals:\t\t", len(code_intervals)
+            print >> outfile, "\t- Mean Duration:\t\t", float(acc)/len(code_intervals)
+            print >> outfile, "\t- No. Events Found:\t\t", len(event_list)
+            print >> outfile, "\t- No. Distinct Events Found:\t", len(set(event_list))
+            for uevent in set(event_list):
+                print >> outfile, "\t\t-", uevent, ":\t\t", event_list.count(uevent)
+
+            print >> outfile, "----------------------------------------------------------"
+
+
+        print >> outfile, "\n\n\n\n\nBRUTE DATA"
+        print >> outfile, "----------------------------------------------------------"
+
         print >> outfile, "Intervals Found: "
         pprint(intervals_found, stream=outfile)
         print >> outfile, "Events Found: "
