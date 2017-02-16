@@ -55,7 +55,7 @@ def main():
                     codestrlist.append(codestr)
 
         st_sort = [st for (ct, st) in sorted(zip(codecount, codestrlist))]
-        codecount.sort()
+        c.sort()
         for ct, st in zip(codecount, st_sort):
             print >> outfile, ct, "\t", st
 
