@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------------
 
 * TO GO
-** TODO 0xB122
+** DONE 0xB122
 2015 Oct 18  20:48:56.443  [5C]  0xB122  LTE LL1 Serving Cell CER
 Version                   = 42
 System Frame Number       = 306
@@ -15,7 +15,7 @@ Number of Records         = 512
 Rx1 Ref Observ Noise Pwr Shift = 23
 Rx0 Ref Observ Noise Pwr Shift = 18
 
-** TODO 0xB111
+** DONE 0xB111
 2015 Oct 18  20:48:56.963  [17]  0xB111  LTE LL1 Rx Agc Log
 Version                   = 21
 Number of Records         = 20
@@ -97,7 +97,7 @@ Records
    |   |      |        |          |       |             |             |          |          |   2604153   2064260|
    | 10|   307|       7|   Enabled|  0.005|       54.609|       54.609|     0.000|     0.000|   2604303   2064211|
    |   |      |        |          |       |             |             |          |          |   2604303   2064211|
-
+   
 ** TODO 0xB114
 2015 Oct 18  20:48:56.456  [1F]  0xB114  LTE LL1 Serving Cell Frame Timing
 Version                           = 43
@@ -171,7 +171,7 @@ Records
    ---------------------------------------------------
    |  0|        0|     9|   308|      1|      2|    0|
 
-** TODO 0xB11D
+** DONE 0xB11D
 2015 Oct 18  20:48:56.469  [9A]  0xB11D  LTE LL1 Serving Cell TTL Results
 Version                 = 42
 Serving Cell ID         = 0
@@ -192,7 +192,7 @@ Records
    |  2|         1|        -2|        54|      1|   309|
    |   |         1|        -2|          |       |      |
 
-** TODO 0xB193
+** DONE 0xB193
 2015 Oct 18  20:48:57.988  [60]  0xB193  LTE ML1 Serving Cell Meas Response
 Version              = 1
 Number of SubPackets = 1
@@ -226,7 +226,7 @@ Serving Cell Measurement Result
    FTL SNR Rx[1]             = 20.30 dB
    Projected Sir = 51 dB
    Post Ic Rsrq = 4294967266 dB
-** TODO [#A] 0xB18B
+** DONE [#A] 0xB18B
 2015 Oct 18  20:48:58.498  [06]  0xB18B  LTE ML1 Sleep
 Version                 = 32
 Physical Cell ID        = 0

@@ -1,0 +1,126 @@
+{
+    "0xB122" : [
+        {
+            "F" : {
+		"Match": "System Frame Number",
+		"Index": -1
+	    }
+            "SF": {
+		"Match": "Sub-frame Number",
+		"Index": -1
+	    }
+            "IDstr" : "LTE LL1 Serving Cell CER"
+        }
+    ],
+
+
+    "0xB111" : [
+        {
+            "F" : {
+		"Match" : "System Frame Number",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "Sub Frame Number",
+		"Index" : -1
+	    }
+            "IDstr" : "LTE LL1 Rx Agc Log"
+        }
+    ],
+
+
+    "0xB12A" : [
+	{
+	    "F" : {
+		"Match" : "System Frame Number",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "Sub-frame Number",
+		"Index" : -1
+	    }
+	    "IDstr" : "LTE LL1 PCFICH Decoding Results"
+	}
+    ],
+
+
+    "0xB11D" : [
+	{
+	    "F" : {
+		"Match" : "|[ ]+0|",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "|[ ]+0|",
+		"Index" : -2
+	    }
+	    "IDstr" : "LTE LL1 PCFICH Decoding Results #0"
+	},
+	{
+	    "F" : {
+		"Match" : "|[ ]+1|",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "|[ ]+1|",
+		"Index" : -2
+	    }
+	    "IDstr" : "LTE LL1 PCFICH Decoding Results #1"
+	},
+	{
+	    "F" : {
+		"Match" : "|[ ]+2|",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "|[ ]+2|",
+		"Index" : -2
+	    }
+	    "IDstr" : "LTE LL1 PCFICH Decoding Results #2"
+	}
+    ]
+    
+    
+    "0xB193" : [
+        {
+            "F" : {
+		"Match" : "Current SFN",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "Current Subframe Number",
+		"Index" : -1
+	    }
+            "IDstr" : "LTE ML1 Serving Cell Meas Response"
+        }
+    ],
+
+
+    "0xB18B" : [
+        {
+            "F" : {
+		"Match" : "Sleep SFN",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "Sleep Subframe",
+		"Index" : -1
+	    }
+            "IDstr" : "LTE ML1 Sleep : Sleep"
+        },
+	{
+            "F" : {
+		"Match" : "Wakeup Object SFN",
+		"Index" : -1
+	    }
+	    "SF": {
+		"Match" : "Wakeup Object Subframe",
+		"Index" : -1
+	    }
+            "IDstr" : "LTE ML1 Sleep : Wakeup"
+        }
+    ],
+
+
+
+}
