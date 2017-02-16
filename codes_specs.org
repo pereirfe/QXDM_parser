@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------------
 
 * TO GO
-** 0xB122
+** TODO 0xB122
 2015 Oct 18  20:48:56.443  [5C]  0xB122  LTE LL1 Serving Cell CER
 Version                   = 42
 System Frame Number       = 306
@@ -15,7 +15,7 @@ Number of Records         = 512
 Rx1 Ref Observ Noise Pwr Shift = 23
 Rx0 Ref Observ Noise Pwr Shift = 18
 
-** 0xB111
+** TODO 0xB111
 2015 Oct 18  20:48:56.963  [17]  0xB111  LTE LL1 Rx Agc Log
 Version                   = 21
 Number of Records         = 20
@@ -27,7 +27,7 @@ Outer Loop Gain           = 0.020004
 Carrier Index             = PCC
 Records
 
-** 0xB142
+** TODO 0xB142
 2015 Oct 18  20:48:56.966  [9A]  0xB142  LTE LL1 CoExistence Status
 Version                        = 3
 Serving Cell ID                = 0
@@ -63,7 +63,7 @@ Status Records
    |  8|       9|deasserted|deasserted|deasserted|deasserted|deasserted|deasserted|        N/A|        N/A|       deasserted|deasserted|
    |  9|       0|deasserted|deasserted|deasserted|deasserted|deasserted|deasserted|        N/A|        N/A|       deasserted|deasserted|
 
-** 0xB121
+** TODO 0xB121
 2015 Oct 18  20:48:56.456  [1F]  0xB121  LTE LL1 Serving Cell COM Loop
 Version                   = 41
 Carrier Index             = PCC
@@ -98,7 +98,7 @@ Records
    | 10|   307|       7|   Enabled|  0.005|       54.609|       54.609|     0.000|     0.000|   2604303   2064211|
    |   |      |        |          |       |             |             |          |          |   2604303   2064211|
 
-** 0xB114
+** TODO 0xB114
 2015 Oct 18  20:48:56.456  [1F]  0xB114  LTE LL1 Serving Cell Frame Timing
 Version                           = 43
 Number of Records                 = 17
@@ -150,7 +150,7 @@ Timing Adjust
    | 16|         1|         0|         0|   1597430| 15355|     0| 124749713|         0|
    |   |          |          |          |   1597429| 15355|     0|          |          |
 
-** 0xB12A
+** TODO 0xB12A
 2015 Oct 18  20:48:56.469  [9A]  0xB12A  LTE LL1 PCFICH Decoding Results
 Version              = 42
 Serving Cell ID      = 0
@@ -171,7 +171,7 @@ Records
    ---------------------------------------------------
    |  0|        0|     9|   308|      1|      2|    0|
 
-** 0xB11D
+** TODO 0xB11D
 2015 Oct 18  20:48:56.469  [9A]  0xB11D  LTE LL1 Serving Cell TTL Results
 Version                 = 42
 Serving Cell ID         = 0
@@ -192,7 +192,7 @@ Records
    |  2|         1|        -2|        54|      1|   309|
    |   |         1|        -2|          |       |      |
 
-** 0xB193
+** TODO 0xB193
 2015 Oct 18  20:48:57.988  [60]  0xB193  LTE ML1 Serving Cell Meas Response
 Version              = 1
 Number of SubPackets = 1
@@ -226,7 +226,7 @@ Serving Cell Measurement Result
    FTL SNR Rx[1]             = 20.30 dB
    Projected Sir = 51 dB
    Post Ic Rsrq = 4294967266 dB
-** 0xB18B
+** TODO [#A] 0xB18B
 2015 Oct 18  20:48:58.498  [06]  0xB18B  LTE ML1 Sleep
 Version                 = 32
 Physical Cell ID        = 0
@@ -244,7 +244,7 @@ Sleep Type              = Not Sleeping
 TTL Warmup Duration     = 5 ms
 Dynamic Offline Info    = Stage 3 optimization
 
-** 0xB116
+** TODO 0xB116
 2015 Oct 18  20:48:58.501  [94]  0xB116  LTE LL1 Serving Cell Measurement Results
 Version                = 21
 Sub-frame Number       = 3
@@ -256,7 +256,7 @@ Cell ID                = 0
 Digital Rotator        = -15.000 KHz
 Timing Offset Rx       = { 0, 0 }
 
-** 0xB16B
+** TODO 0xB16B
 2015 Oct 18  20:48:58.689  [AC]  0xB16B  LTE PDCCH-PHICH Indication Report
 Version              = 5
 Duplex Mode          = 0
@@ -286,7 +286,7 @@ Info Records
    | 15|      0|   514|     0|      No|      No|      |      |     |     |     |              |       |           |      |          |     |      |
    | 16|      0|   514|     1|      No|      No|      |      |     |     |     |              |       |           |      |
 
-** 0xB198
+** TODO 0xB198
 2015 Oct 18  20:49:02.089  [7D]  0xB198  LTE ML1 CDRX Events Info
 Version     = 2
 Num Records = 15
@@ -310,7 +310,7 @@ Records
    | 870|     5|    ON_DURATION_TIMER_END|                                                                     0|
    | 870|     5|            CDRX_ON_2_OFF|                                                                     0|
 
-** 0xB18A
+** TODO 0xB18A
 2015 Oct 18  20:49:03.089  [C9]  0xB18A  LTE ML1 RLM Report
 Version              = 1
 Number of Records    = 2
@@ -325,7 +325,7 @@ Report
    | 870|     4|  0.0|  0.0|    0|    0|     0|
    | 921|     6|  0.0|  0.0|    0|    1|     0|
 
-** 0xB16F
+** TODO 0xB16F
 2015 Oct 18  20:49:03.889  [67]  0xB16F  LTE PUCCH Power Control
 Version              = 4
 Number of Records    = 2
@@ -339,7 +339,7 @@ Report
    |  0| 973|     2|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
    |  1|   0|     4|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
 
-** 0xB16E
+** TODO 0xB16E
 2015 Oct 18  20:49:05.089  [81]  0xB16F  LTE PUCCH Power Control
 Version              = 4
 Number of Records    = 2
@@ -352,14 +352,14 @@ Report
    ---------------------------------------------------------------------------
    |  0|  51|     6|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
    |  1| 102|     8|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
-** 0xB123
+** TODO 0xB123
 2015 Oct 18  20:49:10.797  [27]  0xB123  LTE LL1 Neighbor Cell CER
 Version                = 41
 Neighbor Cell ID       = 396
 Sub-frame Number       = 9
 System Frame number    = 0
 
-** 0xB113
+** TODO 0xB113
 2015 Oct 18  20:49:12.338  [C7]  0xB113  LTE LL1 PSS Results
 Version                = 21
 Number of Half Frames  = 1
@@ -368,7 +368,7 @@ System Frame Number    = 871
 Number of PSS Records  = 16
 PSS Records
 
-** 0xB119
+** TODO 0xB119
 2015 Oct 18  20:49:10.797  [27]  0xB119  LTE LL1 Neighbor Cell Measurements and Tracking
 Version                        = 42
 Total Num NCells               = 1
