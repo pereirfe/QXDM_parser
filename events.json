@@ -1,14 +1,15 @@
 {
     "0xB122" : [
         {
+            "Type" : "Data",
             "F" : {
-		"Match": "System Frame Number",
-		"Index": -1
-	    }
+                "Match": "System Frame Number",
+                "Index": -1
+            },
             "SF": {
-		"Match": "Sub-frame Number",
-		"Index": -1
-	    }
+                "Match": "Sub-frame Number",
+                "Index": -1
+            },
             "IDstr" : "LTE LL1 Serving Cell CER"
         }
     ],
@@ -16,81 +17,114 @@
 
     "0xB111" : [
         {
+            "Type" : "Data",
             "F" : {
-		"Match" : "System Frame Number",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "Sub Frame Number",
-		"Index" : -1
-	    }
+                "Match" : "System Frame Number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub Frame Number",
+                "Index" : -1
+            },
             "IDstr" : "LTE LL1 Rx Agc Log"
         }
     ],
 
 
+    "0xB142" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "UL Dispatch Frame Number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "UL Dispatch Subframe Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 CoExistence Status"
+        }
+    ],
+
+
+    "0xB121" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 2
+            },
+            "IDstr" : "LTE LL1 Serving Cell COM Loop"
+        }
+    ],
+
+
+    "0xB114" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "Starting System Frame Number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Starting Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 Serving Cell Frame Timing"
+        }
+    ],
+
+
     "0xB12A" : [
-	{
-	    "F" : {
-		"Match" : "System Frame Number",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "Sub-frame Number",
-		"Index" : -1
-	    }
-	    "IDstr" : "LTE LL1 PCFICH Decoding Results"
-	}
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 3
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 2
+            },
+            "IDstr" : "LTE LL1 PCFICH Decoding Results"
+        }
     ],
 
 
     "0xB11D" : [
-	{
-	    "F" : {
-		"Match" : "|[ ]+0|",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "|[ ]+0|",
-		"Index" : -2
-	    }
-	    "IDstr" : "LTE LL1 PCFICH Decoding Results #0"
-	},
-	{
-	    "F" : {
-		"Match" : "|[ ]+1|",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "|[ ]+1|",
-		"Index" : -2
-	    }
-	    "IDstr" : "LTE LL1 PCFICH Decoding Results #1"
-	},
-	{
-	    "F" : {
-		"Match" : "|[ ]+2|",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "|[ ]+2|",
-		"Index" : -2
-	    }
-	    "IDstr" : "LTE LL1 PCFICH Decoding Results #2"
-	}
-    ]
-    
-    
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : -2
+            },
+            "IDstr" : "LTE LL1 PCFICH Decoding Results",
+        }
+    ],
+
+
     "0xB193" : [
         {
+            "Type" : "Data",
             "F" : {
-		"Match" : "Current SFN",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "Current Subframe Number",
-		"Index" : -1
-	    }
+                "Match" : "Current SFN",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Current Subframe Number",
+                "Index" : -1
+            },
             "IDstr" : "LTE ML1 Serving Cell Meas Response"
         }
     ],
@@ -98,29 +132,227 @@
 
     "0xB18B" : [
         {
+            "Type" : "Data",
             "F" : {
-		"Match" : "Sleep SFN",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "Sleep Subframe",
-		"Index" : -1
-	    }
+                "Match" : "Sleep SFN",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sleep Subframe",
+                "Index" : -1
+            },
             "IDstr" : "LTE ML1 Sleep : Sleep"
         },
-	{
+        {
+	    "Type" : "Data",
             "F" : {
-		"Match" : "Wakeup Object SFN",
-		"Index" : -1
-	    }
-	    "SF": {
-		"Match" : "Wakeup Object Subframe",
-		"Index" : -1
-	    }
+                "Match" : "Wakeup Object SFN",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Wakeup Object Subframe",
+                "Index" : -1
+            },
             "IDstr" : "LTE ML1 Sleep : Wakeup"
         }
     ],
 
 
+    "0xB116" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "System FN",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 Serving Cell Measurement Result"
+        }
+    ],
 
+    "0xB16B" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 2
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 3
+            },
+            "IDstr" : "LTE PDCCH-PHICH Indication Report"
+        }
+    ],
+
+
+    "0xB198" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 0
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "DynStr": true,
+            "Index" : 2
+        }
+    ],
+
+
+    "0xB18A" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 0
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "IDstr" : "LTE ML1 RLM Report"
+        }
+    ],
+
+
+    "0xB16F" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 2
+            },
+            "IDstr" : "LTE PUCCH Power Control"
+        }
+    ],
+
+
+    "0xB18E" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 0
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "IDstr" : "LTE PUSCH Power Control"
+        }
+    ],
+
+
+    "0xB123" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "System Frame number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 Neighbor Cell CER",
+        }
+    ],
+
+
+    "0xB113" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "System Frame Number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 PSS Results"
+        }
+    ],
+
+
+    "0xB119" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "System Frame Number",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE LL1 Neighbor Cell Measurements and Tracking"
+        }
+    ],
+
+
+    "0xB1B9" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "|||||NOMATCHING|||||",
+                "Index" : 0
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "IDstr" : "LTE ML1 Coex State Info"
+        }
+    ],
+
+
+    "0xB16C" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Number of Records",
+            "F" : {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 1
+            },
+            "SF": {
+                "Match" : "\\s+|\\s*\\d+|",
+                "Index" : 2
+            },
+            "IDstr" : "LTE DCI Information Report"
+        }
+    ],
+
+
+    "0xB142" : [
+        {
+            "Type" : "Data",
+            "F" : {
+                "Match" : "||||||||NO MATCHING||||||||",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" : "Sub-frame Number",
+                "Index" : -1
+            },
+            "IDstr" : "LTE ML1 Connected Mode LTE Intra-Freq Meas Results"
+        }
+    ],
 }
