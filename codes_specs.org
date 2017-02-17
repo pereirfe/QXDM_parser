@@ -150,7 +150,9 @@ Timing Adjust
    | 16|         1|         0|         0|   1597430| 15355|     0| 124749713|         0|
    |   |          |          |          |   1597429| 15355|     0|          |          |
 
-** TODO 0xB12A
+** DONE 0xB12A
+Check number of records!
+
 2015 Oct 18  20:48:56.469  [9A]  0xB12A  LTE LL1 PCFICH Decoding Results
 Version              = 42
 Serving Cell ID      = 0
@@ -170,8 +172,9 @@ Records
    |#  |Offset   |Number|Number|Status |CFI    |MI   |
    ---------------------------------------------------
    |  0|        0|     9|   308|      1|      2|    0|
-
+   
 ** DONE 0xB11D
+Check number of records
 2015 Oct 18  20:48:56.469  [9A]  0xB11D  LTE LL1 Serving Cell TTL Results
 Version                 = 42
 Serving Cell ID         = 0
@@ -340,18 +343,19 @@ Report
    |  1|   0|     4|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
 
 ** TODO 0xB16E
-2015 Oct 18  20:49:05.089  [81]  0xB16F  LTE PUCCH Power Control
-Version              = 4
+2015 Oct 18  20:49:07.389  [F0]  0xB16E  LTE PUSCH Power Control
+Version              = 5
 Number of Records    = 2
 Report
-   ---------------------------------------------------------------------------
-   |   |    |      |PUCCH|      |      |    |           |   |    |    |PUCCH |
-   |   |    |      |Tx   |      |      |    |           |   |DL  |    |Actual|
-   |   |    |      |Power|DCI   |PUCCH |N   |           |N  |Path|    |Tx    |
-   |#  |SFN |Sub-fn|(dBm)|Format|Format|HARQ|TPC Command|CQI|Loss|g(i)|Power |
-   ---------------------------------------------------------------------------
-   |  0|  51|     6|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
-   |  1| 102|     8|  N/A|     3|     1|   0|          1|  0|  63|  55|   N/A|
+   -----------------------------------------------------------------------------
+   |    |      |PUSCH|      |               |   |Transport|    |    |   |PUSCH |
+   |    |      |Tx   |      |               |   |Block    |DL  |    |   |Actual|
+   |    |      |Power|DCI   |               |Num|Size     |Path|    |   |Tx    |
+   |SFN |Sub-fn|(dBm)|Format|Tx Type        |RBs|(bytes)  |Loss|F(i)|TPC|Power |
+   -----------------------------------------------------------------------------
+   | 307|     6|  N/A|     3|        Dynamic|  0|        0|  63|  62|  1|   N/A|
+   | 358|     8|  N/A|     3|        Dynamic|  0|        0|  63|  62|  1|   N/A|
+
 ** TODO 0xB123
 2015 Oct 18  20:49:10.797  [27]  0xB123  LTE LL1 Neighbor Cell CER
 Version                = 41
@@ -399,10 +403,8 @@ Neighbor Cells
    |   |    |          |        |       |    |         |         |  65535|  65535|    255|
    |   |    |          |        |       |    |         |         |  65535|  65535|    255|
 
-
-* Check
-** 0xB1B9
-2015 Oct 18  20:48:56.472  [A6]  0xB1B9  LTE ML1 Coex State Info
+** TODO 0xB1B9
+2015 Oct 18  20:48:56.458  [13]  0xB1B9  LTE ML1 Coex State Info
 Version = 2
 Num Records = 2
 Records
@@ -411,8 +413,44 @@ Records
    |   |Sub  |      |          |          |Co-ex|Connected|High    |DL       |UL       |DL    |UL    |Frame    |TDD   |Subframe|           |           |Backoff|PHR      |PHR |Backoff|PHRless  |PHRless|Msg   |
    |#  |frame|Mask  |Start Time|End Time  |State|Mode     |Priority|Bandwidth|Bandwidth|EARFCN|EARFCN|Structure|Config|Config  |DL CP      |UL CP      |Enabled|Threshold|MTPL|Enabled|Threshold|MTPL   |Status|
    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   |  0| 3087|0x00FE|1724278493|4294967294|    0|     true|   false|   20 MHz|   20 MHz|  3100| 21100|      FDD|     0|       0|  Normal CP|  Normal CP|  false|        0|   0|  false|        0|      0|     1|
-   |  1| 3093|0x40FE|4294967295|   6262240|    1|    false|   false|   20 MHz|   20 MHz|  3100| 21100|      FDD|     0|       0|  Normal CP|  Normal CP|  false|        0|   0|  false|        0|      0|     0|
+   |  0| 3065|0x00FE|1435299283|4294967294|    0|     true|   false|   20 MHz|   20 MHz|  3100| 21100|      FDD|     0|       0|  Normal CP|  Normal CP|  false|        0|   0|  false|        0|      0|     1|
+   |  1| 3081|0x40FE|4294967295|   1125341|    1|    false|   false|   20 MHz|   20 MHz|  3100| 21100|      FDD|     0|       0|  Normal CP|  Normal CP|  false|        0|   0|  false|        0|      0|     0|
+
+** TODO 0xB16C
+2015 Oct 18  20:49:21.589  [8D]  0xB16C  LTE DCI Information Report
+Version              = 7
+Duplex Mode          = FDD
+Number of Records    = 3
+DCI Info Records
+   --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   |   |     |      |       |UL Grant Info                                                                                                               |       |       |         |      |DL Grant Info                           |              |       |
+   |   |     |      |       |     |     |        |     |   |   |      |     |         |       |       |        |Number  |     |          |          |    |       |       |         |      |       |     |DL    |       |DL     |   |              |       |
+   |   |     |      |UL     |     |     |        |     |   |   |Cyclic|     |         |       |       |Start of|of      |     |          |Redundancy|    |PDCCH  |       |TPC DCI  |      |DL     |Serv |Grant |Num    |Grant  |   |              |TPC DCI|
+   |   |     |      |Grant  |RIV  |RIV  |Hopping |MCS  |   |   |Shift |K of |UL       |CQI    |SRS    |Resource|Resource|TBS  |Modulation|Version   |HARQ|Order  |TPC DCI|Format   |Num DL|Grant  |Cell |Format|ACK/NAK|TPC    |   |TPC DCI RNTI  |TPC    |
+   |#  |SFN  |Sub-fn|Present|Width|Value|Flag    |Index|NDI|TPC|DMRS  |DCI 0|Index/DAI|Request|Request|Block   |Blocks  |Index|Type      |Index     |ID  |Present|Present|Type     |Grants|Present|Index|Type  |Bits   |Command|DAI|Type          |Command|
+   --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   |  0|  665|     6|     No|     |     |        |     |   |   |      |     |         |       |       |        |        |     |          |          |    |     No|    Yes| Format 3|     0|       |     |      |       |       |   |TPC_PUCCH_RNTI|      2|
+   |  1|  716|     8|     No|     |     |        |     |   |   |      |     |         |       |       |        |        |     |          |          |    |     No|    Yes| Format 3|     0|       |     |      |       |       |   |TPC_PUCCH_RNTI|      2|
+   |  2|  768|     0|     No|     |     |        |     |   |   |      |     |         |       |       |        |        |     |          |          |    |     No|    Yes| Format 3|     0|       |     |      |       |       |   |TPC_PUCCH_RNTI|      2|
+
+** TODO 0xB179
+2015 Oct 18  20:49:29.232  [62]  0xB179  LTE ML1 Connected Mode LTE Intra-Freq Meas Results
+Version                   = 4
+Serving Cell Index        = PCell
+E-ARFCN                   = 3100
+Serving Physical Cell ID  = 0
+Sub-frame Number          = 5136
+Serving Filtered RSRP     = -56.06 dBm
+Serving Filtered RSRQ     = -2.88 dB
+Number of Neighbor Cells  = 1
+Number of Detected Cells  = 0
+Neighbor Cells
+   --------------------------------
+   |   |        |Filtered|Filtered|
+   |   |Physical|RSRP    |RSRQ    |
+   |#  |Cell ID |(dBm)   |(dB)    |
+   --------------------------------
+   |  0|     396| -107.75|  -17.94|
 
 
 * NOT TO GO
@@ -420,15 +458,13 @@ Records
 *** 0xB11C
 *** 0x18A7
 *** 0x12E8
-*** 0xB067 (check)
+*** 0xB067
 *** 0x17F7
 *** 0xB1BF
 *** 0xB1B2
-*** 0xB16C
 *** 0xB097
 *** 0xB087
 *** 0xB195
-*** 0xB179
 *** 0xB115
 *** 0x1350
 *** 0x4116
