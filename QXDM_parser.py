@@ -51,33 +51,38 @@ def main():
     output_filename = input_filename + "_PARSED"
 
     spec = json.load(open(spec_filename, 'r'))
-    codes_search = spec["codes_search"]
-    codes_markers = spec["codes_markers"]
-    frame_markers = spec["frame_markers"]
-    sframe_markers = spec["sframe_markers"]
-
-    intervals_found = [ [] for x in codes_search ]
-    events_found = [ [] for x in codes_search ]
 
     state = "offset"
 
-    substage = 0
+    tl_time = []
+    tl_code = []
+    tl_string = []
+
     candidate_code = 0
-    time_compiled = 0
-    time_compilation_steps = 0
-    block_finished = 0
-
-    arg = []
-
+    
     code_extractor  = re.compile('0x[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]')
     value_extractor = re.compile('\d+')
-    block_matcher   = re.compile('\d\d\d\d [A-Za-z][A-Za-z][A-Za-z]')
+    table_string_extractor = re.compile('\|.*\|')
+    block_matcher   = re.compile('\A\d\d\d\d [A-Za-z][A-Za-z][A-Za-z]')
+
+    data_type = []
+    f_regex  = []
+    sf_regex = []
+    size_regex = []
+    time = []
+    info_string = []
+    code = 0
+    n_of_rec = -1
+    
+    table_times = []
+    table_strings = []
 
     if enable_progress:
         progression_thread = threading.Thread(target=progressing, args=(input_filename,))
         progression_thread.start()
 
     print "Loading", input_filename, "..."
+    
     with open(input_filename, 'r') as infile, open(output_filename, 'w') as outfile:
         for line in infile:
             linenum += 1
@@ -87,65 +92,87 @@ def main():
                     print "Loaded!"
                 else:
                     continue
+                    
+            
+            ###if state == "default":
+            if block_matcher.match(line):       # New block
+                
+                #Dealing with finalization of previous block
+                for dt, code_obj in zip(data_type, spec[code]):
+                    if dt == "Data":
+                        tl_time = tl_time + time
+                        tl_code = tl_code + [code for i in spec[code]]
+                        tl_string = tl_string + info_string
+                    
+                    if dt == "Table":
+                        tl_time = tl_time + table_times
+                        tl_code = tl_code + [code for i in range(n_of_rec)]
+                        tl_string = tl_string + table_strings
 
-            if state == "default":
-                if block_matcher.match(line):       # New block
-                    candidate_code = (code_extractor.findall(line))[0]
-                    block_finished = 0
-                    for code in codes_search:
-                        if code == candidate_code:
-                            state = "code_found"
-                            current_code = candidate_code
+                #Cleaning Variables
+                
+                n_of_rec = -1
+                table_strings = []
+                table_times = []
+                time = []
+                info_string = []
 
-                else:                               # Inside a non-searched Block
-                    if not block_finished:              # Used for block processing after getting info
-                        for fm in frame_markers:            # Detect if line is a frame
-                            try:
-                                if fm in line:
-                                    time_compilation_steps += 1
-                                    time_compiled += 10*int(value_extractor.findall(line)[-1])
-                            except:
-                                pass
+                #Dealing with the new block
+                candidate_code = (code_extractor.findall(line))[0]
+                if candidate_code in spec:
+                    code = candidate_code
+                    state = "block found"
 
-                        for sfm in sframe_markers:          # Detect if line is a subframe
-                            try:
-                                if sfm in line:
-                                    time_compilation_steps += 1
-                                    time_compiled += 1*int(value_extractor.findall(line)[-1])
-                            except:
-                                pass
+                    for code_obj in spec[code]:
+                        data_type.append(code_obj["Type"])
+                        if data_type[-1] == "Table":
+                           size_regex.append(re.compile(code_obj["F"]["Size_Indicator"]))
+                        
+                        f_regex.append(re.compile(code_obj["F"]["Match"]))
+                        sf_regex.append(re.compile(code_obj["SF"]["Match"]))
+                        time.append(0)
+                        string.append("")
+                        
 
-                        if time_compilation_steps == 2:                 # when both frame and subframe were found
-                            for cd_idx in range(len(codes_search)):
-                                for i in range(len(intervals_found[cd_idx])):
-                                    intv = intervals_found[cd_idx][i]
-                                    if intv[0] <= time_compiled and intv[1] >= time_compiled:
-                                        events_found[cd_idx].append(candidate_code)
+            if state == "block found":
+                for dt, f, sf, sz, tm, istr, code_obj in zip(data_type, f_regex, sf_regex, size_regex, time, info_string, spec[code]):
+                    if dt == "Data":
+                        if f.match(line):
+                            tm += 10*value_extractor.findall(line)[code_obj["F"]["Index"]]
+                            istr = code_obj["IDstr"]
+                            
+                        if sf.match(line):
+                            tm += value_extractor.findall(line)[code_obj["SF"]["Index"]]
+                            istr = code_obj["IDstr"]
+                        
+                        # DynStr parameter only allowed for tables
+                    
+                    elif dt == "Table":
+                        if n_of_rec == -1: #If the table size is not yet known
+                            if sz.match(line):
+                                n_of_rec = value_extractor.findall(line)[-1]  # TODO: Specify in a generalistic way 
+                                
+                        else:  # In tables, each matched line contains frame, subframe and string
+                            v = 0
+                            s = ""
+                            if f.match(line):
+                                v += 10*value_extractor.findall(line)[code_obj["F"]["Index"]]
+                            
+                            if sf.match(line):
+                                v += value_extractor.findall(line)[code_obj["SF"]["Index"]]
+                                
+                            if "DynStr" in code_obj:
+                                s = table_string_extractor.findall(line)[code_obj["Index"]]
+                            else:
+                                s = code_obj["IDstr"]
 
-                            candidate_code = 0
-                            block_finished = 1
-                            time_compilation_steps = 0
-                            time_compiled = 0
+                            table_times.append(v)
+                            table_strings.append(s)
 
-            if state == "code_found":
-                if codes_markers[current_code][substage] in line:
-                    arg.append(int(value_extractor.findall(line)[-1]))
-                    substage += 1
+                    
 
-                    if substage == len(codes_markers[current_code])-1: #last one which is not an instruction
-                        v = [0, 0]
 
-                        for i in range(len(codes_markers[current_code][-1][0])):
-                            v[0] += codes_markers[current_code][-1][0][i]*arg[i]
 
-                        for i in range(len(codes_markers[current_code][-1][1])):
-                            v[1] += codes_markers[current_code][-1][1][i]*arg[i]
-
-                        arg = []
-                        substage = 0
-
-                        intervals_found[codes_search.index(current_code)].append(v)      # Interval Created
-                        state = "default"
 
         mean_duration = []
         for code_intervals, code, event_list in zip(intervals_found, codes_search, events_found):
