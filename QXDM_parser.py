@@ -44,7 +44,7 @@ def main():
 
     global linenum
     line_offset = 5000
-    enable_progress = True
+    enable_progress = False
 
     input_filename = sys.argv[1]
     spec_filename  = sys.argv[2]
@@ -76,6 +76,7 @@ def main():
     
     table_times = []
     table_strings = []
+    block_processing = False
 
     if enable_progress:
         progression_thread = threading.Thread(target=progressing, args=(input_filename,))
@@ -96,19 +97,22 @@ def main():
             
             ###if state == "default":
             if block_matcher.match(line):       # New block
-                
-                #Dealing with finalization of previous block
-                for dt, code_obj in zip(data_type, spec[code]):
-                    if dt == "Data":
-                        tl_time = tl_time + time
-                        tl_code = tl_code + [code for i in spec[code]]
-                        tl_string = tl_string + info_string
-                    
-                    if dt == "Table":
-                        tl_time = tl_time + table_times
-                        tl_code = tl_code + [code for i in range(n_of_rec)]
-                        tl_string = tl_string + table_strings
+                state = "default"
 
+                if block_processing:
+                #Dealing with finalization of previous block
+                    block_processing = False
+                    for dt, code_obj in zip(data_type, spec[code]):
+                        if dt == "Data":
+                            tl_time = tl_time + time
+                            tl_code = tl_code + [code for i in spec[code]]
+                            tl_string = tl_string + info_string
+                            
+                        if dt == "Table":
+                            tl_time = tl_time + table_times
+                            tl_code = tl_code + [code for i in range(n_of_rec)]
+                            tl_string = tl_string + table_strings
+            
                 #Cleaning Variables
                 
                 n_of_rec = -1
@@ -116,88 +120,94 @@ def main():
                 table_times = []
                 time = []
                 info_string = []
+                code = 0
+                data_type = []
+                f_regex  = []
+                sf_regex = []
+                size_regex = []
 
                 #Dealing with the new block
                 candidate_code = (code_extractor.findall(line))[0]
                 if candidate_code in spec:
                     code = candidate_code
                     state = "block found"
-
+                    block_processing = True
+                    
                     for code_obj in spec[code]:
                         data_type.append(code_obj["Type"])
                         if data_type[-1] == "Table":
-                           size_regex.append(re.compile(code_obj["F"]["Size_Indicator"]))
-                        
+                           size_regex.append(re.compile(code_obj["Size_Indicator"]))
+                        else:
+                           size_regex.append(re.compile("xxxxxxxxxxxxxxxxxx"))
+
                         f_regex.append(re.compile(code_obj["F"]["Match"]))
                         sf_regex.append(re.compile(code_obj["SF"]["Match"]))
                         time.append(0)
-                        string.append("")
+                        info_string.append("")
                         
 
             if state == "block found":
-                for dt, f, sf, sz, tm, istr, code_obj in zip(data_type, f_regex, sf_regex, size_regex, time, info_string, spec[code]):
+#                print "---------------\nBLOCK SPEC\n---------------"
+#                print data_type
+#                print f_regex
+#                print sf_regex
+#                print size_regex
+#                print time
+#                print info_string
+#                print spec[code]
+#                print "----------------------------------------"
+
+                
+                for dt, f, sf, sz, tm, code_obj in zip(data_type, f_regex, sf_regex, size_regex, range(len(spec[code])), spec[code]):
                     if dt == "Data":
                         if f.match(line):
-                            tm += 10*value_extractor.findall(line)[code_obj["F"]["Index"]]
-                            istr = code_obj["IDstr"]
+                            #print "Matched frame at line ", line
+                            #raw_input("Continue?") 
+                            time[tm] += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
+                            #print "tm = ", tm
+                            info_string[tm] = code_obj["IDstr"]
                             
                         if sf.match(line):
-                            tm += value_extractor.findall(line)[code_obj["SF"]["Index"]]
-                            istr = code_obj["IDstr"]
+                            time[tm] += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
+                            info_string[tm] = code_obj["IDstr"]
                         
                         # DynStr parameter only allowed for tables
                     
                     elif dt == "Table":
                         if n_of_rec == -1: #If the table size is not yet known
                             if sz.match(line):
-                                n_of_rec = value_extractor.findall(line)[-1]  # TODO: Specify in a generalistic way 
+                                n_of_rec = int(value_extractor.findall(line)[-1])  # TODO: Specify in a generalistic way 
                                 
                         else:  # In tables, each matched line contains frame, subframe and string
                             v = 0
                             s = ""
+                            got_line = False
                             if f.match(line):
-                                v += 10*value_extractor.findall(line)[code_obj["F"]["Index"]]
+                                got_line = True
+                                v += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
                             
                             if sf.match(line):
-                                v += value_extractor.findall(line)[code_obj["SF"]["Index"]]
+                                got_line = True
+                                v += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
                                 
                             if "DynStr" in code_obj:
+                                got_line = True
                                 s = table_string_extractor.findall(line)[code_obj["Index"]]
                             else:
                                 s = code_obj["IDstr"]
-
-                            table_times.append(v)
-                            table_strings.append(s)
-
-                    
-
-
-
-
+                            
+                            if got_line:
+                                table_times.append(v)
+                                table_strings.append(s)
+                                
+                            
         mean_duration = []
-        for code_intervals, code, event_list in zip(intervals_found, codes_search, events_found):
-            acc = 0
-            for interval in code_intervals:
-                acc += (interval[1]-interval[0])
+        a = zip(tl_time, tl_code, tl_string)
+        a.sort()
+        tl_time, tl_code, tl_string = zip(*a)
+        for tm, cd, st in zip(tl_time, tl_code, tl_string):
+            print >> outfile, "\t\t", tm, "\t\t", cd, "\t\t", st
 
-            print >> outfile, "Searching for Intervals Between", code, "references"
-            print >> outfile, "\t- No. Intervals:\t\t", len(code_intervals)
-            print >> outfile, "\t- Mean Duration:\t\t", float(acc)/len(code_intervals)
-            print >> outfile, "\t- No. Events Found:\t\t", len(event_list)
-            print >> outfile, "\t- No. Distinct Events Found:\t", len(set(event_list))
-            for uevent in set(event_list):
-                print >> outfile, "\t\t-", uevent, ":\t\t", event_list.count(uevent)
-
-            print >> outfile, "----------------------------------------------------------"
-
-
-        print >> outfile, "\n\n\n\n\nBRUTE DATA"
-        print >> outfile, "----------------------------------------------------------"
-
-        print >> outfile, "Intervals Found: "
-        pprint(intervals_found, stream=outfile)
-        print >> outfile, "Events Found: "
-        pprint(events_found, stream=outfile)
 
 if __name__ == "__main__":
     main()
