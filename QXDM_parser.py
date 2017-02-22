@@ -199,14 +199,35 @@ def main():
                             if got_line:
                                 table_times.append(v)
                                 table_strings.append(s)
-                                
                             
-        mean_duration = []
-        a = zip(tl_time, tl_code, tl_string)
-        a.sort()
-        tl_time, tl_code, tl_string = zip(*a)
-        for tm, cd, st in zip(tl_time, tl_code, tl_string):
-            print >> outfile, "\t\t", tm, "\t\t", cd, "\t\t", st
+        chunks_time = []
+        chunks_code = []
+        chunks_str  = []
+        prev_marker = 0
+        print "Dimension: ", len(tl_time)
+        for i in range(1,len(tl_time)):
+            if i%1000 == 0:
+                print "Currently at ", i
+            if (tl_time[i] - tl_time[i-1]) < -1000:
+                chunks_time.append(tl_time[prev_marker:(i-1)])
+                chunks_code.append(tl_code[prev_marker:(i-1)])
+                chunks_str.append(tl_string[prev_marker:(i-1)])
+                
+                prev_marker = i
+                a = zip(chunks_time, chunks_code, chunks_str)
+                a.sort()
+                chunks_time[-1], chunks_code[-1], chunks_str[-1] = zip(*a)
+
+
+        print chunks_time
+        raw_input("continue?")
+        tl_time = []
+        tl_code = []
+        tl_str  = []
+
+        for t, c, s in zip(chunks_time, chunks_code, chunks_str):
+            for tm, cd, st in zip(t, c, s):
+                print >> outfile, "\t\t", tm, "\t\t", cd, "\t\t", st
 
 
 if __name__ == "__main__":
