@@ -62,8 +62,9 @@ def main():
     
     code_extractor  = re.compile('0x[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]')
     value_extractor = re.compile('\d+')
-    table_string_extractor = re.compile('\|.*\|')
-    block_matcher   = re.compile('\A\d\d\d\d [A-Za-z][A-Za-z][A-Za-z]')
+    table_matchline = re.compile('^\s+\|.*\d+.*\|')
+    table_string_extractor = re.compile('[^\|]*[^\|\s]+[^\|]*')
+    block_matcher   = re.compile('^\d\d\d\d\s[A-Z][a-z][a-z]\s\d\d')
 
     data_type = []
     f_regex  = []
@@ -110,11 +111,10 @@ def main():
                             
                         if dt == "Table":
                             tl_time = tl_time + table_times
-                            tl_code = tl_code + [code for i in range(n_of_rec)]
+                            tl_code = tl_code + [code for i in range(len(table_times))]
                             tl_string = tl_string + table_strings
             
                 #Cleaning Variables
-                
                 n_of_rec = -1
                 table_strings = []
                 table_times = []
@@ -129,6 +129,11 @@ def main():
                 #Dealing with the new block
                 candidate_code = (code_extractor.findall(line))[0]
                 if candidate_code in spec:
+
+#                    if candidate_code == "0xB193":
+#                        print "FOUND", candidate_code, "at line", line
+#                        raw_input("Continue?")
+
                     code = candidate_code
                     state = "block found"
                     block_processing = True
@@ -158,16 +163,18 @@ def main():
 #                print "----------------------------------------"
 
                 
+                #print "LINE: ", line
+                #raw_input("Continue?")
+
                 for dt, f, sf, sz, tm, code_obj in zip(data_type, f_regex, sf_regex, size_regex, range(len(spec[code])), spec[code]):
                     if dt == "Data":
                         if f.match(line):
-                            #print "Matched frame at line ", line
-                            #raw_input("Continue?") 
+                           ### print "F: ", line
                             time[tm] += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
-                            #print "tm = ", tm
                             info_string[tm] = code_obj["IDstr"]
                             
                         if sf.match(line):
+                            #print "SF: ", line
                             time[tm] += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
                             info_string[tm] = code_obj["IDstr"]
                         
@@ -183,16 +190,23 @@ def main():
                             s = ""
                             got_line = False
                             if f.match(line):
+                                #print "MATCH F"
                                 got_line = True
                                 v += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
                             
                             if sf.match(line):
+                                #print "MATCH SF"
                                 got_line = True
                                 v += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
                                 
                             if "DynStr" in code_obj:
-                                got_line = True
-                                s = table_string_extractor.findall(line)[code_obj["Index"]]
+                                if table_matchline.match(line):
+                                   # print "MATCH DNS"
+                                    got_line = True
+                                   # print "LINE: ", line
+                                   # print "INDEX: ", code_obj["Index"]
+                                   # print "STR ", table_string_extractor.findall(line)
+                                    s = table_string_extractor.findall(line)[code_obj["Index"]]
                             else:
                                 s = code_obj["IDstr"]
                             
@@ -214,17 +228,18 @@ def main():
                 chunks_str.append(tl_string[prev_marker:(i-1)])
                 
                 prev_marker = i
-                a = zip(chunks_time, chunks_code, chunks_str)
+                a = zip(chunks_time[-1], chunks_code[-1], chunks_str[-1])
                 a.sort()
-                chunks_time[-1], chunks_code[-1], chunks_str[-1] = zip(*a)
+                try:
+                    chunks_time[-1], chunks_code[-1], chunks_str[-1] = zip(*a)
+                except:
+                    chunks_time = chunks_time[0:-1]
+                    chunks_code = chunks_code[0:-1]
+                    chunks_str = chunks_str[0:-1]
 
-
-        print chunks_time
-        raw_input("continue?")
-        tl_time = []
-        tl_code = []
-        tl_str  = []
-
+        #print chunks_time
+        #raw_input("Continue?")
+        
         for t, c, s in zip(chunks_time, chunks_code, chunks_str):
             for tm, cd, st in zip(t, c, s):
                 print >> outfile, "\t\t", tm, "\t\t", cd, "\t\t", st
