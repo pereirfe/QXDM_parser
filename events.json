@@ -19,11 +19,11 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "System Frame Number",
+                "Match" :  "^.*System Frame Number",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sub Frame Number",
+                "Match" :  "^.*Sub Frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 Rx Agc Log"
@@ -35,11 +35,11 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "UL Dispatch Frame Number",
+                "Match" :  "^.*UL Dispatch Frame Number",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "UL Dispatch Subframe Number",
+                "Match" :  "^.*UL Dispatch Subframe Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 CoExistence Status"
@@ -68,11 +68,11 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "Starting System Frame Number",
+                "Match" :  "^.*Starting System Frame Number",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Starting Sub-frame Number",
+                "Match" :  "^.*Starting Sub-frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 Serving Cell Frame Timing"
@@ -134,27 +134,41 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "Sleep SFN",
+                "Match" :  "^.*Sleep SFN",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sleep Subframe",
+                "Match" :  "^.*Sleep Subframe",
                 "Index" : -1
             },
-            "IDstr" : "LTE ML1 Sleep : Sleep <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+            "IDstr" : "LTE ML1 Sleep : Sleep <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
         },
         {
 	    "Type" : "Data",
             "F" : {
-                "Match" : "Wakeup Object SFN",
+                "Match" :  "^.*Wakeup Object SFN",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Wakeup Object Subframe",
+                "Match" :  "^.*Wakeup Object Subframe",
                 "Index" : -1
             },
-            "IDstr" : "LTE ML1 Sleep : Wakeup <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+            "IDstr" : "LTE ML1 Sleep : Object Wakeup <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+        },
+
+	{
+	    "Type" : "Data",
+            "F" : {
+                "Match" :  "^.*Wakeup SFN",
+                "Index" : -1
+            },
+            "SF": {
+                "Match" :  "^.*Wakeup Subframe",
+                "Index" : -1
+            },
+            "IDstr" : "LTE ML1 Sleep : Wakeup <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
         }
+
     ],
 
 
@@ -162,11 +176,11 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "System FN",
+                "Match" :  "^.*System FN",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sub-frame Number",
+                "Match" :  "^.*Sub-frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 Serving Cell Measurement Result"
@@ -259,31 +273,15 @@
     ],
 
 
-    "0xB123" : [
-        {
-            "Type" : "Data",
-            "F" : {
-                "Match" : "System Frame number",
-                "Index" : -1
-            },
-            "SF": {
-                "Match" : "Sub-frame Number",
-                "Index" : -1
-            },
-            "IDstr" : "LTE LL1 Neighbor Cell CER"
-        }
-    ],
-
-
     "0xB113" : [
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "System Frame Number",
+                "Match" :  "^.*System Frame Number",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sub-frame Number",
+                "Match" :  "^.*Sub-frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 PSS Results"
@@ -295,11 +293,11 @@
         {
             "Type" : "Data",
             "F" : {
-                "Match" : "System Frame Number",
+                "Match" :  "^.*System Frame Number",
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sub-frame Number",
+                "Match" :  "^.*Sub-frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE LL1 Neighbor Cell Measurements and Tracking"
@@ -349,7 +347,7 @@
                 "Index" : -1
             },
             "SF": {
-                "Match" : "Sub-frame Number",
+                "Match" :  "^.*Sub-frame Number",
                 "Index" : -1
             },
             "IDstr" : "LTE ML1 Connected Mode LTE Intra-Freq Meas Results"
