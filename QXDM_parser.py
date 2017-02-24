@@ -103,16 +103,15 @@ def main():
                 if block_processing:
                 #Dealing with finalization of previous block
                     block_processing = False
-                    for dt, code_obj in zip(data_type, spec[code]):
-                        if dt == "Data":
-                            tl_time = tl_time + time
-                            tl_code = tl_code + [code for i in spec[code]]
-                            tl_string = tl_string + info_string
+                    if data_type[-1] == "Data":
+                        tl_time = tl_time + time
+                        tl_code = tl_code + [code for i in spec[code]]
+                        tl_string = tl_string + info_string
                             
-                        if dt == "Table":
-                            tl_time = tl_time + table_times
-                            tl_code = tl_code + [code for i in range(len(table_times))]
-                            tl_string = tl_string + table_strings
+                    if data_type[-1] == "Table":
+                        tl_time = tl_time + table_times
+                        tl_code = tl_code + [code for i in range(len(table_times))]
+                        tl_string = tl_string + table_strings
             
                 #Cleaning Variables
                 n_of_rec = -1
@@ -169,7 +168,7 @@ def main():
                 for dt, f, sf, sz, tm, code_obj in zip(data_type, f_regex, sf_regex, size_regex, range(len(spec[code])), spec[code]):
                     if dt == "Data":
                         if f.match(line):
-                           ### print "F: ", line
+                            ### print "F: ", line
                             time[tm] += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
                             info_string[tm] = code_obj["IDstr"]
                             
@@ -222,7 +221,7 @@ def main():
         for i in range(1,len(tl_time)):
             if i%1000 == 0:
                 print "Currently at ", i
-            if (tl_time[i] - tl_time[i-1]) < -1000:
+            if (tl_time[i] - tl_time[i-1]) < -5000:
                 chunks_time.append(tl_time[prev_marker:(i-1)])
                 chunks_code.append(tl_code[prev_marker:(i-1)])
                 chunks_str.append(tl_string[prev_marker:(i-1)])
