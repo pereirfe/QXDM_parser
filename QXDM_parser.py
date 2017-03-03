@@ -12,6 +12,7 @@ from pprint import pprint
 
 linenum = 0
 
+
 def wc(filename):
     return int(check_output(["wc", "-l", filename]).split()[0])
 
@@ -62,8 +63,8 @@ def main():
     
     code_extractor  = re.compile('0x[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]')
     value_extractor = re.compile('\d+')
-    table_matchline = re.compile('^\s+\|.*\d+.*\|')
-    table_string_extractor = re.compile('[^\|]*[^\|\s]+[^\|]*')
+    table_matchline = re.compile('^\s+\|[^\|]*\d+[^\|]*\|')
+    table_string_extractor = re.compile('\|[^\|]+')
     block_matcher   = re.compile('^\d\d\d\d\s[A-Z][a-z][a-z]\s\d\d')
 
     data_type = []
@@ -187,15 +188,22 @@ def main():
                                 #print "MATCH SF"
                                 got_line = True
                                 v += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
-                                
-                            if "DynStr" in code_obj:
+                                                            
+                            if "DynStr" in code_obj and got_line == True:
+                                s = code_obj["General Prefix"] 
                                 if table_matchline.match(line):
-                                   # print "MATCH DNS"
-                                    got_line = True
-                                    s = table_string_extractor.findall(line)[code_obj["Index"]]
+                                    for dstr in code_obj["DynStr"]:
+                                        s += " {" + dstr["Prefix"] + ": \"" 
+                                        s += (table_string_extractor.findall(line)[dstr["Index"]].replace("|","")).strip()
+                                        s += "\"}, "
+                                        
                             else:
-                                s = code_obj["IDstr"]
-                            
+                                try:
+                                    s = code_obj["IDstr"]
+                                except:
+                                    if got_line:
+                                        print "ERROR: no IDSTR. got_line = ", got_line
+
                             if got_line:
                                 table_times.append(v)
                                 table_strings.append(s)
