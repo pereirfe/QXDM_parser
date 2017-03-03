@@ -151,21 +151,10 @@ def main():
                         
 
             if state == "block found":
-#                print "---------------\nBLOCK SPEC\n---------------"
-#                print data_type
-#                print f_regex
-#                print sf_regex
-#                print size_regex
-#                print time
-#                print info_string
-#                print spec[code]
-#                print "----------------------------------------"
-
-                
-                #print "LINE: ", line
-                #raw_input("Continue?")
-
-                for dt, f, sf, sz, tm, code_obj in zip(data_type, f_regex, sf_regex, size_regex, range(len(spec[code])), spec[code]):
+                for dt, f, sf, sz, tm, code_obj in zip(data_type, f_regex, 
+                                                       sf_regex, size_regex, 
+                                                       range(len(spec[code])), 
+                                                       spec[code]):
                     if dt == "Data":
                         if f.match(line):
                             ### print "F: ", line
@@ -182,7 +171,8 @@ def main():
                     elif dt == "Table":
                         if n_of_rec == -1: #If the table size is not yet known
                             if sz.match(line):
-                                n_of_rec = int(value_extractor.findall(line)[-1])  # TODO: Specify in a generalistic way 
+                                n_of_rec = int(value_extractor.findall(line)[-1])  
+                                # TODO: Specify in a generalistic way 
                                 
                         else:  # In tables, each matched line contains frame, subframe and string
                             v = 0
@@ -202,9 +192,6 @@ def main():
                                 if table_matchline.match(line):
                                    # print "MATCH DNS"
                                     got_line = True
-                                   # print "LINE: ", line
-                                   # print "INDEX: ", code_obj["Index"]
-                                   # print "STR ", table_string_extractor.findall(line)
                                     s = table_string_extractor.findall(line)[code_obj["Index"]]
                             else:
                                 s = code_obj["IDstr"]
