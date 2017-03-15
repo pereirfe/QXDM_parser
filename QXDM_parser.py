@@ -55,7 +55,7 @@ def main():
 
     global linenum
     line_offset = 5000
-    enable_progress = False
+    enable_progress = True
 
     input_filename = sys.argv[1]
     spec_filename  = sys.argv[2]
@@ -171,12 +171,10 @@ def main():
                                                        spec[code]):
                     if dt == "Data":
                         if f.match(line):
-                            ### print "F: ", line
                             time[tm] += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
                             info_string[tm] = code_obj["IDstr"]
                             
                         if sf.match(line):
-                            #print "SF: ", line
                             time[tm] += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
                             info_string[tm] = code_obj["IDstr"]
                         
@@ -193,12 +191,10 @@ def main():
                             s = ""
                             got_line = False
                             if f.match(line):
-                                #print "MATCH F"
                                 got_line = True
                                 v += 10*int(value_extractor.findall(line)[code_obj["F"]["Index"]])
                             
                             if sf.match(line):
-                                #print "MATCH SF"
                                 got_line = True
                                 v += int(value_extractor.findall(line)[code_obj["SF"]["Index"]])
                                                             
@@ -229,12 +225,8 @@ def main():
         cct = 0
 
         startmodecounter = 0
-        print "Dimension: ", len(tl_time)
         for i in range(1,len(tl_time)):
             startmodecounter += 1
-            if i%1000 == 0:
-                print "Currently at ", i
-            
             if tl_time[i] > 8000 and startmodecounter < 300:
                 chunks_time[cct-1].append(tl_time[i])
                 chunks_hour[cct-1].append(tl_hour[i])
