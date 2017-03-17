@@ -1,0 +1,59 @@
+[
+    {
+	"name": "Wakeup",
+	"position": null,
+	"rstart": ".*LTE ML1 Sleep : Wakeup.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": ".*LTE ML1 Sleep : Object Wakeup.*",
+	"pend": -1
+    },
+    {
+	"name": "Measurements",
+	"position": null,
+	"rstart": ".*CDRX EVENT.*ON_DURATION_TIMER_END.*",
+	"pstart": 1,
+	"rhit": ".*LTE.*Serving Cell.*",
+	"rend": ".*Sleep : Sleep.*",
+	"pend": -2
+    },
+    {
+	"name": "ON Duration",
+	"position": null,
+	"rstart": ".*CDRX EVENT.*ON_DURATION_TIMER_START.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": ".*CDRX EVENT.*ON_DURATION_TIMER_END.*",
+	"pend": -1
+    },
+    {
+	"name": "Turning ON CDRX",
+	"position": null,
+	"rstart": ".*LTE ML1 Sleep.*Object Wakeup.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": ".*CDRX EVENT.*CDRX_OFF_2_ON.*",
+	"pend": -1
+    },
+    {
+	"name": "Wakeup to Sleep",
+	"position": null,
+	"rstart": ".*LTE ML1 Sleep : Wakeup.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": ".*LTE ML1 Sleep : Sleep.*",
+	"pend": -1
+    },
+    {
+	"name": "Wakeup to Wakeup",
+	"position": null,
+	"rstart": ".*LTE ML1 Sleep : Wakeup.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": ".*LTE ML1 Sleep : Wakeup.*",
+	"pend": -1
+    }
+
+
+]
+
