@@ -8,7 +8,8 @@ import math
 
 class MeasureDefinition:
     ''' A class which will keep the description of measures from spec '''
-    
+    started = False
+
     def __init__(self, spec):
         self.rstart = re.compile(spec["rstart"])
         self.pstart = int(spec["pstart"])
@@ -19,14 +20,20 @@ class MeasureDefinition:
         self.position = spec["position"]
         self.current_measuring = []
         self.concluded_measuring = []
+        
 
     def checkline(self, line):
-        for cm in self.current_measuring:
-            cm.checkline(line)
+        if MeasureDefinition.started == False and self.name == "STARTPOINT":
+            if self.rstart.match(line):
+                MeasureDefinition.started = True
+                return
 
-        if (self.rstart.match(line)):
-            self.current_measuring.append(Measure(self,line))
+        if MeasureDefinition.started == True:
+            for cm in self.current_measuring:
+                cm.checkline(line)
 
+            if (self.rstart.match(line)):
+                self.current_measuring.append(Measure(self,line))
 
     def conclude_measure(self,m):
         self.concluded_measuring.append(m)
@@ -89,10 +96,12 @@ def main():
 
     with open(output_filename, 'w') as o:
         for m in meas:
+            if m.name == "STARTPOINT":
+                continue
+
             print >>o, "Measure", m.name, "\n\tNo. inputs:\t", m.get_nint()
             print >>o, "\tMeantime:\t", m.get_mean()
-            print >>o, "\n" + "-"*72
-            
+            print >>o, "\n" + "-"*40
 
 
 if __name__ == "__main__":

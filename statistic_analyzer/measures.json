@@ -1,5 +1,14 @@
 [
     {
+	"name": "STARTPOINT",
+	"position": null,
+	"rstart": ".*LTE ML1 Sleep : Wakeup.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend": "NOSTRING",
+	"pend": 0
+    },
+    {
 	"name": "Wakeup",
 	"position": null,
 	"rstart": ".*LTE ML1 Sleep : Wakeup.*",
@@ -53,7 +62,5 @@
 	"rend": ".*LTE ML1 Sleep : Wakeup.*",
 	"pend": -1
     }
-
-
 ]
 
