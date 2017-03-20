@@ -26,7 +26,6 @@ class MeasureDefinition:
         if MeasureDefinition.started == False and self.name == "STARTPOINT":
             if self.rstart.match(line):
                 MeasureDefinition.started = True
-                return
 
         if MeasureDefinition.started == True:
             for cm in self.current_measuring:
@@ -52,6 +51,28 @@ class MeasureDefinition:
             return 0.0
         return float(acc)/len(self.concluded_measuring)
     
+    def get_confidence(self):
+        z = 1.96 # For 95%
+        if self.get_nint() == 0:
+            return 0.0
+
+        mean = self.get_mean()
+        
+        acc = 0
+        for m in self.concluded_measuring:
+            st = m.gethitp(self.pstart)
+            ed = m.gethitp(self.pend)
+            if ed < st:
+                ed += 10240
+            t = (ed - st)
+            acc += (t-mean)**2
+        acc /= float(self.get_nint()-1)
+        acc = math.sqrt(acc)
+        acc /= math.sqrt(self.get_nint())
+        acc *= z
+
+        return acc
+   
     def get_nint(self):
         return len(self.concluded_measuring)
 
@@ -83,6 +104,11 @@ def main():
     spec_filename =  sys.argv[2]
     output_filename = input_filename + "_STAT"
 
+    generate_csv = False
+    if len(sys.argv) == 4:
+        generate_csv = True
+        csv_report = sys.argv[3]
+
     spec = json.load(open(spec_filename, 'r'))
 
     meas = []
@@ -101,8 +127,17 @@ def main():
 
             print >>o, "Measure", m.name, "\n\tNo. inputs:\t", m.get_nint()
             print >>o, "\tMeantime:\t", m.get_mean()
+            print >>o, "\tConfidence:\t", m.get_confidence()
             print >>o, "\n" + "-"*40
 
+    with open(csv_report, 'a') as o:
+        print >>o, input_filename, ",", 
+        for m in meas:
+            if m.name == "STARTPOINT":
+                continue
+            print >>o, m.name, ",", m.get_nint(), ",", m.get_mean(),
+            print >>o, ",", m.get_confidence(), ",",
+        print >>o, ""
 
 if __name__ == "__main__":
     main()
