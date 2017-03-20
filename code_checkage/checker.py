@@ -58,13 +58,13 @@ def main():
             small404f.append(f)
 
     with open(output_filename, 'w') as o:
-        print >>o, "Codes in BIG which are absent in reference"
+        print >>o, "Codes in BIG which are absent in reference.", len(big404), len(big404f)
         for code, f in zip(big404, big404f):
             print >>o, f, "\t", code
 
         print >>o, "-"*72
 
-        print >>o, "Codes in SMALL which are absent in reference"
+        print >>o, "Codes in SMALL which are absent in reference.", len(small404), len(small404f)
         for code, f in zip(small404, small404f):
             print >>o, f, "\t", code
 
