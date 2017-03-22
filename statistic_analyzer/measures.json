@@ -36,12 +36,12 @@
 	"pend": -1
     },
     {
-	"name": "Turning ON CDRX",
+	"name": "Object To OnTimerStart",
 	"position": null,
 	"rstart": ".*LTE ML1 Sleep.*Object Wakeup.*",
 	"pstart": 0,
 	"rhit": "NOSTRING",
-	"rend": ".*CDRX EVENT.*CDRX_OFF_2_ON.*",
+	"rend": ".*CDRX EVENT.*ON_DURATION_TIMER_START.*",
 	"pend": -1
     },
     {
@@ -60,6 +60,15 @@
 	"pstart": 0,
 	"rhit": "NOSTRING",
 	"rend": ".*LTE ML1 Sleep : Wakeup.*",
+	"pend": -1
+    },
+    {
+	"name": "PSS",
+	"position": null,
+	"rstart": ".*LTE LL1 PSS Result.*",
+	"pstart": 0,
+	"rhit": "NOSTRING",
+	"rend":  ".*LTE LL1 PSS Result.*",
 	"pend": -1
     }
 ]
