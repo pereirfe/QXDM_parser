@@ -2,7 +2,7 @@
     {
 	"name": "STARTPOINT",
 	"position": null,
-	"rstart": "^(.*?)$",
+	"rstart": "^(.*?)ON_DURATION_TIMER_END(.*?)",
 	"pstart": 0,
 	"rhit": "NOSTRING",
 	"rend": "NOSTRING",

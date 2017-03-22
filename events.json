@@ -371,6 +371,36 @@
         }
     ],
 
+    "0xB130" : [
+        {
+            "Type" : "Table",
+            "Size_Indicator" : "Num Records",
+            "F" : {
+                "Match" : "^\\s+\\|\\s*\\d+\\|",
+                "Index" : 1
+            },
+            "SF": {
+                "Match" : "^\\s+\\|\\s*\\d+\\|",
+                "Index" : 2
+            },
+	                
+	    "General Prefix" : "LTE LL1 PDCCH Decoding Result",
+	    "DynStr" : [
+		{
+		    "Index" : 12,
+		    "Prefix": "Decode"
+		},
+
+		{
+		    "Index" : 8,
+		    "Prefix": "AggLvl"
+		}
+	    ]
+        }
+    ],
+
+
+
 
     "0xB179" : [
         {
